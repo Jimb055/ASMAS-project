@@ -37,15 +37,26 @@ public class JwtAuthenticationFilter
 
             String token = authHeader.substring(7);
 
+            String username;
             try {
-                jwtUtil.validateToken(token);
+                username = jwtUtil.extractUsername(token);
             } catch (Exception e) {
                 return unauthorized(exchange);
             }
 
-            return chain.filter(exchange);
+            ServerWebExchange mutatedExchange = exchange.mutate()
+                    .request(builder -> builder
+                            .header("X-Username", username)
+                            .header("X-User-Id", username)
+                    )
+                    .build();
+                    
+            System.out.println("Forwarding request for user: " + username);
+        
+            return chain.filter(mutatedExchange);
         };
     }
+
 
     private Mono<Void> unauthorized(ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
