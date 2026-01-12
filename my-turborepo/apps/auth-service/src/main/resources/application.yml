@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+jwt:
+  secret: my-secret-key-for-academic-project
+  
+spring:
+  application:
+    name: auth-service
