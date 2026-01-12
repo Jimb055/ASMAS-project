@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: my-turborepo
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,6 +23,7 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: my-turborepo/package-lock.json
+
       - name: Install dependencies
         run: npm install
 
@@ -26,5 +31,4 @@ jobs:
         run: npx turbo run build
 
       - name: Build Docker image (api-gateway)
-        run: |
-          docker build -t asmas-api-gateway ./apps/api-gateway
+        run: docker build -t asmas-api-gateway ./apps/api-gateway
