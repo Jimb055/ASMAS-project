@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SurveyController {
 
     @GetMapping("/protected/survey/ping")
-    public ResponseEntity<?> ping(
+    public ResponseEntity<String> ping(
             @RequestHeader("X-Username") String username,
             @RequestHeader("X-User-Id") String userId
     ) {
