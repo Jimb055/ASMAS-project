@@ -68,6 +68,7 @@ The following diagram illustrates the distributed deployment model used in the A
 Each AWS Academy Learner Lab represents an independent node and failure domain.
 
 
+```mermaid
 ---
 config:
   layout: elk
@@ -232,7 +233,7 @@ graph LR
     class QA_CLUSTER qaEnv;
     class PROD_CLUSTER prodEnv;
     class QA_D1,QA_D2,QA_D3,QA_D4,PR_D1,PR_D2,PR_D3,PR_D4 dockerHost;
-
+```
 
 
 ### Develop
