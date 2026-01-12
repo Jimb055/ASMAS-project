@@ -2,7 +2,7 @@ server:
   port: 8081
 
 jwt:
-  secret: my-secret-key-for-academic-project
+  secret: my-secret-key-for-academic-project-123456
   
 spring:
   application:
