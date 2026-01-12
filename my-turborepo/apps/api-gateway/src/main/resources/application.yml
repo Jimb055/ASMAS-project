@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+jwt:
+  secret: my-secret-key-for-academic-project-123456
+
 spring:
   application:
     name: api-gateway
@@ -12,6 +15,13 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/auth/**
+
+        - id: protected-services
+          uri: http://localhost:8081
+          predicates:
+            - Path=/protected/**
+          filters:
+            - JwtAuthenticationFilter
 
 management:
   endpoints:
