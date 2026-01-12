@@ -1,0 +1,7 @@
+{
+  "name": "survey-command-service",
+  "private": true,
+  "scripts": {
+    "build": "mvn clean package -DskipTests"
+  }
+}
