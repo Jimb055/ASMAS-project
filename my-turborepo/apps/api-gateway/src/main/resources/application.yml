@@ -1,35 +1,45 @@
 server:
   port: 8080
 
-jwt:
-  secret: my-secret-key-for-academic-project-123456
-
 spring:
   application:
     name: api-gateway
 
   cloud:
     gateway:
+      default-filters:
+        - AddResponseHeader=X-Gateway, ASMAS
+        - AddRequestHeader=X-Environment, QA
+
       routes:
+
+        # ==========================
+        # AUTH SERVICE (QA-EDGE)
+        # ==========================
         - id: auth-service
-          uri: http://localhost:8081
+          uri: http://ec2-52-207-32-92.compute-1.amazonaws.com:8081
           predicates:
             - Path=/auth/**
 
-        - id: protected-services
-          uri: http://localhost:8081
-          predicates:
-            - Path=/protected/**
-          filters:
-            - JwtAuthenticationFilter
-            
+        # ==========================
+        # SURVEY COMMAND (QA-COMMAND LAB)
+        # ==========================
         - id: survey-command
-          uri: http://localhost:8082
+          uri: http://<QA_COMMAND_DNS>:8083
           predicates:
-            - Path=/protected/survey/**
-          filters:
-            - JwtAuthenticationFilter
+            - Path=/protected/command/**
 
+        # ==========================
+        # SURVEY QUERY (QA-QUERY LAB)
+        # ==========================
+        - id: survey-query
+          uri: http://<QA_QUERY_DNS>:8084
+          predicates:
+            - Path=/protected/query/**
+
+jwt:
+  secret: my-secret-key-for-academic-project
+  expiration: 3600000
 
 management:
   endpoints:
