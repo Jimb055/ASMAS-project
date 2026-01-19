@@ -12,10 +12,20 @@ spring:
         - AddRequestHeader=X-Environment, QA
 
       routes:
+
+        # AUTH - PUBLIC
         - id: auth-service
-          uri: http://ec2-52-207-32-92.compute-1.amazonaws.com:8081
+          uri: http://ec2-54-92-195-3.compute-1.amazonaws.com:8081
           predicates:
             - Path=/auth/**
+
+        # # PROTECTED SERVICES---
+        # - id: survey-command
+        #   uri: http://<QA_COMMAND_DNS>:8083
+        #   predicates:
+        #     - Path=/protected/**
+        #   filters:
+        #     - name: JwtAuthenticationFilter
 
 management:
   endpoints:
