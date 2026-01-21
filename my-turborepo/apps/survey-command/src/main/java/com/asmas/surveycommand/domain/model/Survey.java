@@ -25,7 +25,7 @@ public class Survey {
     private final LocalDateTime createdAt;
     private final String createdBy;
 
-    // 🔴 Domain Events buffer
+    //Domain Events buffer
     private final List<DomainEvent> domainEvents = new ArrayList<>();
 
     private Survey(
@@ -64,6 +64,13 @@ public class Survey {
                 LocalDateTime.now(),
                 createdBy
         );
+
+
+        // TEMP: add question for testing
+    survey.addQuestion(
+        new Question("Pregunta de prueba", List.of("Sí", "No"))
+    );
+
 
         // ✅ Emit domain event
         survey.domainEvents.add(

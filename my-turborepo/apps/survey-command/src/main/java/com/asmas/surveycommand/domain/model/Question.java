@@ -1,25 +1,31 @@
 package com.asmas.surveycommand.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Question {
-    private final String id;
+
     private final String text;
-    private final String type;
+    private final List<String> options;
 
-    public Question(String id, String text, String type) {
-        this.id = id;
-        this.text = text;
-        this.type = type;
-    }
+    public Question(String text, List<String> options) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Question text cannot be null or empty");
+        }
 
-    public String getId() {
-        return id;
+        if (options == null || options.isEmpty()) {
+            throw new IllegalArgumentException("Question must have at least one option");
+        }
+
+        this.text = text.trim();
+        this.options = new ArrayList<>(options);
     }
 
     public String getText() {
         return text;
     }
 
-    public String getType() {
-        return type;
+    public List<String> getOptions() {
+        return new ArrayList<>(options);
     }
 }
