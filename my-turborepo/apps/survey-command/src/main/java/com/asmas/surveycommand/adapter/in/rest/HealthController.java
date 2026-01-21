@@ -1,4 +1,4 @@
-package com.asmas.surveycommand.controller;
+package com.asmas.surveycommand.adapter.in.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,9 +6,19 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SurveyController {
+public class HealthController {
 
-    @GetMapping("/protected/survey/ping")
+    @GetMapping("/health")
+    public String health() {
+        return "OK";
+    }
+
+
+    /**
+     * Health check endpoint (NOT a query).
+     * Verifies authentication and service availability.
+     */
+    @GetMapping("/ping")
     public ResponseEntity<String> ping(
             @RequestHeader("X-Username") String username,
             @RequestHeader("X-User-Id") String userId
@@ -17,4 +27,5 @@ public class SurveyController {
                 "Authenticated request from user=" + username + ", id=" + userId
         );
     }
+
 }
