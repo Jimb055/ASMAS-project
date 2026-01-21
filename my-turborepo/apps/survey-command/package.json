@@ -2,6 +2,7 @@
   "name": "survey-command-service",
   "private": true,
   "scripts": {
-    "build": "mvn clean package -DskipTests"
+    "build": "mvn clean package -DskipTests",
+    "dev": "mvn spring-boot:run"
   }
 }
