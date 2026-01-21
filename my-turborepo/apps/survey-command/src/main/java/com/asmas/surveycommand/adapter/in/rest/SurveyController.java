@@ -1,8 +1,14 @@
 package com.asmas.surveycommand.adapter.in.rest;
 
 import com.asmas.surveycommand.domain.port.in.CreateSurveyUseCase;
+import com.asmas.surveycommand.domain.port.in.PublishSurveyCommand;
+import com.asmas.surveycommand.domain.port.in.PublishSurveyResponse;
+import com.asmas.surveycommand.domain.port.in.PublishSurveyUseCase;
 import com.asmas.surveycommand.domain.port.in.CreateSurveyCommand;
 import com.asmas.surveycommand.domain.port.in.CreateSurveyResponse;
+
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +18,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/surveys")
 public class SurveyController {
     private final CreateSurveyUseCase createSurveyUseCase;
+    private final PublishSurveyUseCase publishSurveyUseCase;
 
-    public SurveyController(CreateSurveyUseCase createSurveyUseCase) {
+    public SurveyController(CreateSurveyUseCase createSurveyUseCase, PublishSurveyUseCase publishSurveyUseCase) {
         if (createSurveyUseCase == null) {
             throw new IllegalArgumentException("CreateSurveyUseCase cannot be null");
         }
+        if (publishSurveyUseCase == null) {
+            throw new IllegalArgumentException("PublishSurveyUseCase cannot be null");
+        }
         this.createSurveyUseCase = createSurveyUseCase;
+        this.publishSurveyUseCase = publishSurveyUseCase;
     }
 
 
@@ -53,10 +64,6 @@ public class SurveyController {
         }
     }
 
-    /**
-     * HTTP Request DTO for CreateSurvey command.
-     * Immutable transfer object from adapter layer.
-     */
     public static class CreateSurveyRequest {
         private String title;
         private String description;
@@ -85,4 +92,21 @@ public class SurveyController {
             this.description = description;
         }
     }
+
+
+    @PostMapping("/{id}/publish")
+public ResponseEntity<PublishSurveyResponse> publishSurvey(
+        @PathVariable("id") UUID surveyId,
+        @RequestHeader("X-User-Id") String userId
+) {
+    PublishSurveyCommand command =
+            new PublishSurveyCommand(surveyId, userId);
+
+    PublishSurveyResponse response =
+            publishSurveyUseCase.execute(command);
+
+    return ResponseEntity.ok(response);
+}
+
+
 }
