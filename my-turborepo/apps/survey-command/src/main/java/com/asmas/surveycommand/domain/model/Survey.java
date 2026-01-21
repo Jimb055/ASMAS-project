@@ -121,6 +121,19 @@ public class Survey {
         }
     }
 
+    public void close() {
+    if (this.status != SurveyStatus.PUBLISHED) {
+        throw new IllegalStateException(
+            String.format(
+                "Cannot close survey in %s status. Only PUBLISHED surveys can be closed.",
+                this.status
+            )
+        );
+    }
+    this.status = SurveyStatus.CLOSED;
+}
+
+
     public UUID getId() {
         return id;
     }
