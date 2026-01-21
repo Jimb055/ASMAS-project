@@ -27,8 +27,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run linting
+        run: npx turbo run lint
+
+      - name: Run tests
+        run: npx turbo run test
+
       - name: Run Turborepo build
         run: npx turbo run build
 
       - name: Build Docker image (api-gateway)
         run: docker build -t asmas-api-gateway ./apps/api-gateway
+
+      - name: Build Docker image (survey-command-service)
+        run: docker build -t asmas-survey-command ./apps/survey-command
