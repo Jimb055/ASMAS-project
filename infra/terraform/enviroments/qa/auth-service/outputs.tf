@@ -1,7 +1,19 @@
-output "qa_auth_private_ip" {
-  value = aws_instance.auth_service.private_ip
+output "service_name" {
+  value = var.service_name
 }
 
-output "qa_auth_public_dns" {
-  value = aws_instance.auth_service.public_dns
+output "public_ip" {
+  value = aws_eip.this.public_ip
+}
+
+output "public_dns" {
+  value = aws_eip.this.public_dns
+}
+
+output "service_port" {
+  value = var.service_port
+}
+
+output "ssh_command" {
+  value = "ssh -i ~/.ssh/${var.key_name}.pem ubuntu@${aws_eip.this.public_ip}"
 }
