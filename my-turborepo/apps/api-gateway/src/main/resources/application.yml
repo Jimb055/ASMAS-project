@@ -13,19 +13,93 @@ spring:
 
       routes:
 
-        # AUTH - PUBLIC
+        # =========================
+        # AUTH SERVICE (PUBLIC)
+        # =========================
         - id: auth-service
-          uri: http://ec2-54-92-195-3.compute-1.amazonaws.com:8081
+          uri: http://18.211.185.119:8081
           predicates:
             - Path=/auth/**
 
-        # # PROTECTED SERVICES---
-        # - id: survey-command
-        #   uri: http://<QA_COMMAND_DNS>:8083
-        #   predicates:
-        #     - Path=/protected/**
-        #   filters:
-        #     - name: JwtAuthenticationFilter
+        # =========================
+        # SURVEY COMMAND (PROTECTED)
+        # =========================
+        - id: survey-command
+          uri: http://98.85.245.42:8083
+          predicates:
+            - Path=/protected/surveys/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # SURVEY QUERY (PROTECTED)
+        # =========================
+        - id: survey-query
+          uri: http://3.226.143.65:8084
+          predicates:
+            - Path=/protected/surveys-query/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # RESPONSE COLLECTOR (PROTECTED)
+        # =========================
+        - id: response-collector
+          uri: http://44.212.212.59:8085
+          predicates:
+            - Path=/protected/responses/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # ANALYTICS SERVICE (PROTECTED)
+        # =========================
+        - id: analytics-service
+          uri: http://34.236.137.45:8086
+          predicates:
+            - Path=/protected/analytics/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # REPORTING SERVICE (PROTECTED)
+        # =========================
+        - id: reporting-service
+          uri: http://13.219.112.45:8087
+          predicates:
+            - Path=/protected/reports/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # NOTIFICATION SERVICE (PROTECTED)
+        # =========================
+        - id: notification-service
+          uri: http://100.51.8.216:8088
+          predicates:
+            - Path=/protected/notifications/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # GAMIFICATION SERVICE (PROTECTED)
+        # =========================
+        - id: gamification-service
+          uri: http://34.196.28.250:8089
+          predicates:
+            - Path=/protected/gamification/**
+          filters:
+            - name: JwtAuthenticationFilter
+
+        # =========================
+        # EVENT PROCESSOR (PROTECTED)
+        # =========================
+        - id: event-processor
+          uri: http://98.88.131.204:8090
+          predicates:
+            - Path=/protected/events/**
+          filters:
+            - name: JwtAuthenticationFilter
 
 management:
   endpoints:
