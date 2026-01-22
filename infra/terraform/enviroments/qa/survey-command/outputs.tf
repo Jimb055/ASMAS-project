@@ -1,7 +1,19 @@
-output "survey_command_public_ip" {
-  value = aws_instance.survey_command.public_ip
+output "service_name" {
+  value = var.service_name
 }
 
-output "survey_command_public_dns" {
-  value = aws_instance.survey_command.public_dns
+output "public_ip" {
+  value = aws_eip.this.public_ip
+}
+
+output "public_dns" {
+  value = aws_eip.this.public_dns
+}
+
+output "service_port" {
+  value = var.service_port
+}
+
+output "ssh_command" {
+  value = "ssh -i ~/.ssh/${var.key_name}.pem ubuntu@${aws_eip.this.public_ip}"
 }

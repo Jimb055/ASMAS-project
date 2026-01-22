@@ -2,27 +2,16 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-*-x86_64"]
-  }
-
-  owners = ["amazon"]
-}
-
-resource "aws_security_group" "survey_command_sg" {
+resource "aws_security_group" "this" {
   name        = "${var.environment}-${var.service_name}-sg"
-  description = "SG for Survey Command"
+  description = "SG for ${var.service_name}"
 
   ingress {
-    description = "HTTP (temporary open)"
-    from_port   = 8080
-    to_port     = 8080
+    description = "Service port"
+    from_port   = var.service_port
+    to_port     = var.service_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # 🔴 temporal
+    cidr_blocks = ["0.0.0.0/0"] # QA simple, luego se cierra
   }
 
   ingress {
@@ -41,28 +30,55 @@ resource "aws_security_group" "survey_command_sg" {
   }
 
   tags = {
-    Name = "${var.environment}-${var.service_name}-sg"
+    Name        = "${var.environment}-${var.service_name}-sg"
+    Environment = var.environment
+    Service     = var.service_name
   }
 }
 
-resource "aws_instance" "survey_command" {
-  ami                    = data.aws_ami.amazon_linux.id
+resource "aws_instance" "this" {
+  ami                    = var.ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
-  vpc_security_group_ids = [aws_security_group.survey_command_sg.id]
+  vpc_security_group_ids = [aws_security_group.this.id]
 
   user_data = <<-EOF
     #!/bin/bash
-    yum update -y
-    yum install -y docker
-    systemctl start docker
+    apt-get update -y
+    apt-get install -y \
+      ca-certificates \
+      curl \
+      gnupg \
+      lsb-release \
+      htop \
+      unzip \
+      jq
+
+    # Docker
+    curl -fsSL https://get.docker.com | sh
     systemctl enable docker
-    usermod -aG docker ec2-user
+    systemctl start docker
+    usermod -aG docker ubuntu
+
+    # Basic monitoring utils
+    apt-get install -y net-tools
+
+    echo "Bootstrap completed for ${var.service_name}" > /etc/motd
   EOF
 
   tags = {
     Name        = "${var.environment}-${var.service_name}"
-    Project     = var.project
     Environment = var.environment
+    Service     = var.service_name
+  }
+}
+
+resource "aws_eip" "this" {
+  instance = aws_instance.this.id
+
+  tags = {
+    Name        = "${var.environment}-${var.service_name}-eip"
+    Environment = var.environment
+    Service     = var.service_name
   }
 }

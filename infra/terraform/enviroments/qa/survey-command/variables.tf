@@ -1,16 +1,12 @@
-variable "project" {
-  type    = string
-  default = "asmas"
+variable "service_name" {
+  type        = string
+  description = "Name of the microservice"
 }
 
 variable "environment" {
-  type    = string
-  default = "qa"
-}
-
-variable "service_name" {
-  type    = string
-  default = "survey-command"
+  type        = string
+  description = "Environment name (qa)"
+  default     = "qa"
 }
 
 variable "instance_type" {
@@ -18,10 +14,22 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
+variable "service_port" {
+  type        = number
+  description = "Port exposed by the microservice"
+}
+
 variable "key_name" {
-  type = string
+  type        = string
+  description = "EC2 key pair name"
 }
 
 variable "allowed_ssh_cidr" {
-  type = string
+  type        = string
+  description = "CIDR allowed for SSH access"
+}
+
+variable "ami_id" {
+  type        = string
+  description = "Ubuntu 22.04 AMI ID"
 }
