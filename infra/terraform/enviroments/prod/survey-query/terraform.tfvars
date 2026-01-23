@@ -1,8 +1,8 @@
 service_name      = "survey-query"
-environment       = "qa"
+environment       = "prod"
 instance_type     = "t3.micro"
 service_port      = 8084
-key_name          = "qa-survey-query-query-key"
+key_name          = "prod-survey-query-query-key"
 allowed_ssh_cidr  = "179.49.51.26/32"
 
 # Ubuntu 22.04 LTS (us-east-1)

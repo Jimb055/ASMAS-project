@@ -1,8 +1,8 @@
 service_name      = "gamification"
-environment       = "qa"
+environment       = "prod"
 instance_type     = "t3.micro"
 service_port      = 8089
-key_name          = "qa-gamification-event-key"
+key_name          = "prod-gamification-event-key"
 allowed_ssh_cidr  = "179.49.51.26/32"
 
 # Ubuntu 22.04 LTS (us-east-1)

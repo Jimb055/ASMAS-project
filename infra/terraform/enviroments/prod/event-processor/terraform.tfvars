@@ -1,8 +1,8 @@
 service_name      = "event-processor"
-environment       = "qa"
+environment       = "prod"
 instance_type     = "t3.micro"
 service_port      = 8090
-key_name          = "qa-event-processor-event-key"
+key_name          = "prod-event-processor-event-key"
 allowed_ssh_cidr  = "179.49.51.26/32"
 
 # Ubuntu 22.04 LTS (us-east-1)

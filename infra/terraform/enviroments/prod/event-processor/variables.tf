@@ -5,8 +5,8 @@ variable "service_name" {
 
 variable "environment" {
   type        = string
-  description = "Environment name (qa)"
-  default     = "qa"
+  description = "Environment name (prod)"
+  default     = "prod"
 }
 
 variable "instance_type" {

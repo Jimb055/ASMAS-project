@@ -1,8 +1,8 @@
 service_name      = "notification"
-environment       = "qa"
+environment       = "prod"
 instance_type     = "t3.micro"
 service_port      = 8088
-key_name          = "qa-notification-event-key"
+key_name          = "prod-notification-event-key"
 allowed_ssh_cidr  = "179.49.51.26/32"
 
 # Ubuntu 22.04 LTS (us-east-1)
