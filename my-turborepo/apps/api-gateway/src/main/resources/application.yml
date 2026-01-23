@@ -39,8 +39,8 @@ spring:
           predicates:
             - Path=/protected/surveys-query/**
           filters:
-            - StripPrefix=2
             - name: JwtAuthenticationFilter
+            - StripPrefix=2
 
         # =========================
         # RESPONSE COLLECTOR (PROTECTED)
