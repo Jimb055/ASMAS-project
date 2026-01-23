@@ -49,3 +49,14 @@ resource "aws_instance" "bastion" {
     Name = "${var.project_name}-bastion"
   }
 }
+
+resource "aws_eip" "bastion" {
+  instance = aws_instance.bastion.id
+
+  tags = {
+    Name        = "bastion-eip"
+    Environment = "shared"
+    Service     = "bastion"
+  }
+}
+
