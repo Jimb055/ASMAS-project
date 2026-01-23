@@ -15,12 +15,14 @@ public class ResponseController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> submitResponse(
-            @RequestHeader(name = "X-User-Id") String userId,
-            @Valid @RequestBody SubmitResponseRequest request) {
-
-        service.submit(request.getSurveyId(), request.getQuestionId(), userId, request.getAnswer());
+    @PostMapping("/{surveyId}")
+    public ResponseEntity<Void> submitResponses(
+            @PathVariable String surveyId,
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody SubmitSurveyResponseRequest request
+    ) {
+        service.submitSurveyResponses(surveyId, authorization, request);
         return ResponseEntity.accepted().build();
     }
 }
+
