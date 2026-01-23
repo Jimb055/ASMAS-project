@@ -4,6 +4,7 @@ import com.asmas.surveycommand.domain.port.in.CreateSurveyUseCase;
 import com.asmas.surveycommand.domain.port.in.PublishSurveyCommand;
 import com.asmas.surveycommand.domain.port.in.PublishSurveyResponse;
 import com.asmas.surveycommand.domain.port.in.PublishSurveyUseCase;
+import com.asmas.surveycommand.domain.port.in.AddQuestionUseCase;
 import com.asmas.surveycommand.domain.port.in.CloseSurveyCommand;
 import com.asmas.surveycommand.domain.port.in.CloseSurveyResponse;
 import com.asmas.surveycommand.domain.port.in.CloseSurveyUseCase;
@@ -23,8 +24,13 @@ public class SurveyController {
     private final CreateSurveyUseCase createSurveyUseCase;
     private final PublishSurveyUseCase publishSurveyUseCase;
     private final CloseSurveyUseCase closeSurveyUseCase;
+    private final AddQuestionUseCase addQuestionUseCase;
 
-    public SurveyController(CreateSurveyUseCase createSurveyUseCase, PublishSurveyUseCase publishSurveyUseCase, CloseSurveyUseCase closeSurveyUseCase) {
+
+    public SurveyController(CreateSurveyUseCase createSurveyUseCase,
+         PublishSurveyUseCase publishSurveyUseCase,
+          CloseSurveyUseCase closeSurveyUseCase,
+          AddQuestionUseCase addQuestionUseCase) {
         if (createSurveyUseCase == null) {
             throw new IllegalArgumentException("CreateSurveyUseCase cannot be null");
         }
@@ -37,6 +43,7 @@ public class SurveyController {
         this.createSurveyUseCase = createSurveyUseCase;
         this.publishSurveyUseCase = publishSurveyUseCase;
         this.closeSurveyUseCase = closeSurveyUseCase;
+        this.addQuestionUseCase = addQuestionUseCase;
     }
 
 
@@ -130,6 +137,23 @@ public class SurveyController {
 
         return ResponseEntity.ok(response);
     }
+
+
+    @PostMapping("/{id}/questions")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addQuestion(
+            @PathVariable UUID id,
+            @RequestBody AddQuestionRequest request
+    ) {
+        addQuestionUseCase.execute(
+                new AddQuestionUseCase.AddQuestionCommand(
+                        id,
+                        request.text()
+                )
+        );
+    }
+
+    record AddQuestionRequest(String text) {}
 
 
 

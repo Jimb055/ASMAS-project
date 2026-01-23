@@ -64,13 +64,7 @@ public class Survey {
                 LocalDateTime.now(),
                 createdBy
         );
-
-
-        // TEMP: add question for testing
-    survey.addQuestion(
-        new Question("Pregunta de prueba", List.of("Sí", "No"))
-    );
-
+        
 
         // ✅ Emit domain event
         survey.domainEvents.add(
@@ -106,11 +100,11 @@ public class Survey {
                     "Only DRAFT surveys can be published"
             );
         }
-        if (this.questions.size() < MIN_QUESTIONS_TO_PUBLISH) {
+       /*  if (this.questions.size() < MIN_QUESTIONS_TO_PUBLISH) {
             throw new IllegalStateException(
                     "Survey must have at least one question to be published"
             );
-        }
+        }*/
 
         this.status = SurveyStatus.PUBLISHED;
 
@@ -213,4 +207,35 @@ public class Survey {
     public String getCreatedBy() {
         return createdBy;
     }
+
+
+    /* =========================
+   REHYDRATION (FROM DB)
+   ========================= */
+
+public static Survey rehydrate(
+        UUID id,
+        String title,
+        String description,
+        SurveyStatus status,
+        List<Question> questions,
+        LocalDateTime createdAt,
+        String createdBy
+) {
+    return new Survey(
+            id,
+            title,
+            description,
+            status,
+            questions != null ? questions : new ArrayList<>(),
+            createdAt,
+            createdBy
+    );
 }
+
+
+
+}
+
+
+

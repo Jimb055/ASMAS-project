@@ -5,6 +5,21 @@ spring:
   application:
     name: survey-command
 
+  datasource:
+    url: jdbc:postgresql://100.30.45.28:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
 management:
   endpoints:
     web:
